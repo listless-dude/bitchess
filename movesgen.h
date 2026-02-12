@@ -49,3 +49,77 @@ void pawn_moves(Board *board, MoveList *list)
         }
     }
 }
+
+void rook_moves(Board *board, MoveList *list)
+{
+    U64 rooks = board->bitboards[wR];
+
+    while (rooks)
+    {
+        int from = __builtin_ctzll(rooks);
+        pop_bit(&rooks, from);
+
+        int rank = from / 8;
+        int file = from % 8;
+
+        // Move up
+        for (int r = rank + 1; r < 8; r++)
+        {
+            int to = r * 8 + file;
+            if (board->occupancies[WHITE] & (1ULL << to))
+            {
+                break;
+            }
+            list->moves[list->count] = (Move){from, to, wR};
+
+            if (board->occupancies[BLACK] & (1ULL << to))
+            {
+                break;
+            }
+        }
+        
+        // Move down
+        for (int r = rank - 1; r >= 0; r--)
+        {
+            int to = r * 8 + file;
+
+            if (board->occupancies[WHITE] & (1ULL << to))
+                break;
+
+            list->moves[list->count++] = (Move){from, to, wR};
+
+            if (board->occupancies[BLACK] & (1ULL << to))
+                break;
+        }
+
+        // Move right
+        for (int f = file + 1; f < 8; f++)
+        {
+            int to = rank * 8 + f;
+
+            if (board->occupancies[WHITE] & (1ULL << to))
+                break;
+
+            list->moves[list->count++] = (Move){from, to, wR};
+
+            if (board->occupancies[BLACK] & (1ULL << to))
+                break;
+        }
+
+        // Move left
+        for (int f = file - 1; f >= 0; f--)
+        {
+            int to = rank * 8 + f;
+
+            if (board->occupancies[WHITE] & (1ULL << to))
+                break;
+
+            list->moves[list->count++] = (Move){from, to, wR};
+
+            if (board->occupancies[BLACK] & (1ULL << to))
+                break;
+        }
+
+
+    }
+}

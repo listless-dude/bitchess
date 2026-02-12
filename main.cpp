@@ -16,6 +16,7 @@ int main()
     MoveList list = {0};
 
     pawn_moves(&board, &list);
+    rook_moves(&board, &list);
     print_board(&board);
 
     for (int i = 0; i < list.count; i++)
