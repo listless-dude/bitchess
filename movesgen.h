@@ -174,7 +174,7 @@ void bishop_moves(Board *board, MoveList *list)
             if (board->occupancies[WHITE] & (1ULL << to))
                 break;
 
-            list->moves[list->count++] = (Move){from, to, wR};
+            list->moves[list->count++] = (Move){from, to, wB};
 
             if (board->occupancies[BLACK] & (1ULL << to))
                 break;
@@ -188,7 +188,7 @@ void bishop_moves(Board *board, MoveList *list)
             if (board->occupancies[WHITE] & (1ULL << to))
                 break;
 
-            list->moves[list->count++] = (Move){from, to, wR};
+            list->moves[list->count++] = (Move){from, to, wB};
 
             if (board->occupancies[BLACK] & (1ULL << to))
                 break;
