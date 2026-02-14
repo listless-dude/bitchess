@@ -123,3 +123,77 @@ void rook_moves(Board *board, MoveList *list)
 
     }
 }
+
+void bishop_moves(Board *board, MoveList *list)
+{
+    U64 bishops = board->bitboards[wB];
+
+    while (bishops)
+    {
+        int from = __builtin_ctzll(bishops);
+        pop_bit(&bishops, from);
+
+        int rank = from / 8;
+        int file = from % 8;
+
+        // Move up-right
+        for (int r = rank + 1, f = file + 1; r < 8 && f < 8; r++, f++)
+        {
+            int to = r * 8 + f;
+            if (board->occupancies[WHITE] & (1ULL << to))
+            {
+                break;
+            }
+            list->moves[list->count++] = (Move){from, to, wB};
+
+            if (board->occupancies[BLACK] & (1ULL << to))
+            {
+                break;
+            }
+        }
+        
+        // Move up-left
+        for (int r = rank + 1, f = file - 1; r < 8 && f >= 0; r++, f--)
+        {
+            int to = r * 8 + file;
+
+            if (board->occupancies[WHITE] & (1ULL << to))
+                break;
+
+            list->moves[list->count++] = (Move){from, to, wB};
+
+            if (board->occupancies[BLACK] & (1ULL << to))
+                break;
+        }
+
+        // Move down-right
+        for (int r = rank - 1, f = file + 1; r >= 0 && f < 8; r--, f++)
+        {
+            int to = rank * 8 + f;
+
+            if (board->occupancies[WHITE] & (1ULL << to))
+                break;
+
+            list->moves[list->count++] = (Move){from, to, wR};
+
+            if (board->occupancies[BLACK] & (1ULL << to))
+                break;
+        }
+
+        // Move down-left
+        for (int r = rank - 1, f = file - 1; r >= 0 && f >= 0; r--, f--)
+        {
+            int to = rank * 8 + f;
+
+            if (board->occupancies[WHITE] & (1ULL << to))
+                break;
+
+            list->moves[list->count++] = (Move){from, to, wR};
+
+            if (board->occupancies[BLACK] & (1ULL << to))
+                break;
+        }
+
+
+    }
+}
