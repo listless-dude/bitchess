@@ -197,3 +197,21 @@ void bishop_moves(Board *board, MoveList *list)
 
     }
 }
+
+void queen_moves(Board *board, MoveList *list)
+{
+    int start = list->count;
+
+    // Queen = Rook + Bishop
+    // Temp Rook Moves
+    U64 temp = board->bitboards[wR];
+    board->bitboards[wR] = board->bitboards[wQ];
+    rook_moves(board, list);
+    board->bitboards[wR] = temp;
+
+    // Temp Bishop Moves
+    temp = board->bitboards[wB];
+    board->bitboards[wB] = board->bitboards[wQ];
+    bishop_moves(board, list);
+    board->bitboards[wB] = temp;
+}
