@@ -15,6 +15,8 @@ int main()
 
     // remove pawn at a2 to free rook
     pop_bit(&board.bitboards[wP], 8);
+    pop_bit(&board.bitboards[wP], 9);
+    pop_bit(&board.bitboards[wP], 11);
 
     // rebuild occupancies
     board.occupancies[WHITE] = 0;
@@ -36,6 +38,9 @@ int main()
     printf("After pawns: %d\n", list.count);
 
     rook_moves(&board, &list);
+    printf("After rooks: %d\n", list.count);
+
+    bishop_moves(&board, &list);
     printf("After rooks: %d\n", list.count);
 
     print_board(&board);

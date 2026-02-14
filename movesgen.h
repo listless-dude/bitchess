@@ -155,7 +155,7 @@ void bishop_moves(Board *board, MoveList *list)
         // Move up-left
         for (int r = rank + 1, f = file - 1; r < 8 && f >= 0; r++, f--)
         {
-            int to = r * 8 + file;
+            int to = r * 8 + f;
 
             if (board->occupancies[WHITE] & (1ULL << to))
                 break;
