@@ -49,7 +49,10 @@ int main()
 
     knight_moves(&board, &list);
     printf("After knight: %d\n", list.count);
-    
+
+    king_moves(&board, &list);
+    printf("After king: %d\n", list.count);
+
     print_board(&board);
 
     for (int i = 0; i < list.count; i++)
