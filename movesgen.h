@@ -215,3 +215,36 @@ void queen_moves(Board *board, MoveList *list)
     bishop_moves(board, list);
     board->bitboards[wB] = temp;
 }
+
+void knight_moves(Board *board, MoveList *list)
+{
+    U64 knights = board->bitboards[wN];
+
+    // Knight move offsets
+    int dr[8] = {2, 2, 1, 1, -1, -1, -2, -2};
+    int df[8] = {1, -1, 2, -2, 2, -2, 1, -1};
+
+    while (knights)
+    {
+        int from = __builtin_ctzll(knights);
+        pop_bit(&knights, from);
+
+        int rank = from / 8;
+        int file = from % 8;
+
+        for (int i = 0; i < 8; i++)
+        {
+            int r = rank + dr[i];
+            int f = file + df[i];
+
+            if (r >= 0 && r < 8 && f >= 0 && f < 8)
+            {
+                int to = r * 8 + f;
+
+                if (board->occupancies[WHITE] & (1ULL << to))
+                    continue;
+                list->moves[list->count++] = (Move){from, to, wN};
+            }
+        }
+    }
+}
