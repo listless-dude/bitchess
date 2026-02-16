@@ -46,6 +46,10 @@ int main()
 
     queen_moves(&board, &list);
     printf("After queen: %d\n", list.count);
+
+    knight_moves(&board, &list);
+    printf("After knight: %d\n", list.count);
+    
     print_board(&board);
 
     for (int i = 0; i < list.count; i++)
