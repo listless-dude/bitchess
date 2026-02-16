@@ -248,3 +248,36 @@ void knight_moves(Board *board, MoveList *list)
         }
     }
 }
+
+void king_moves(Board *board, MoveList *list)
+{
+    U64 king = board->bitboards[wK];
+
+    int dr[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+    int df[8] = {1, 0, -1, 1, -1, 1, 0, -1};
+
+    while (king)
+    {
+        int from = __builtin_ctzll(king);
+        pop_bit(&king, from);
+
+        int rank = from / 8;
+        int file = from % 8;
+
+        for (int i = 0; i < 8; i++)
+        {
+            int r = rank + dr[i];
+            int f = file + df[i];
+
+            if (r >= 0 && r < 8 && f >= 0 && f < 8)
+            {
+                int to = r * 8 + f;
+
+                if (board->occupancies[WHITE] & (1ULL << to))
+                    continue;
+
+                list->moves[list->count++] = (Move){from, to, wK};
+            }
+        }
+    }
+}
